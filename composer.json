@@ -1,0 +1,50 @@
+{
+  "name": "bell/console",
+  "description": "bell console tools.",
+  "keywords": [
+    "karabiner",
+    "fukuoka",
+    "scraping"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Shigeki Tanaka",
+      "email": "dev@shigeki.tokyo"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "extend.functions.php"
+    ],
+    "psr-4": {
+      "Exception\\": "src/Exception/",
+      "Bell\\Console\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Bell\\Console\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.3",
+    "symfony/console": "^5.0",
+    "fabpot/goutte": "^3.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "*",
+    "squizlabs/php_codesniffer": "*",
+    "phpmd/phpmd": "*",
+    "phpunit/phpunit": "^7.0"
+  },
+  "scripts": {
+    "test": [
+      "phpunit"
+    ],
+    "cs": [
+      "php-cs-fixer fix --dry-run --diff --diff-format udiff ./src"
+    ]
+  }
+}
