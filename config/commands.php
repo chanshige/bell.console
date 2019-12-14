@@ -1,7 +1,9 @@
 <?php
 
 use Bell\Console\Commands as Command;
+use Bell\Console\Services as Service;
 
+use Goutte\Client;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 
@@ -16,6 +18,9 @@ return function (Application $app) {
             [
                 Command\Greeting::getDefaultName() => function () {
                     return new Command\Greeting;
+                },
+                Command\HawksNews::getDefaultName() => function () {
+                    return new Command\HawksNews((new Service\HawksNewsScraper())(new Client));
                 }
             ]
         )

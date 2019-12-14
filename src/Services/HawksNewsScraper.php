@@ -40,7 +40,7 @@ class HawksNewsScraper extends ArrayObject implements HawksNewsScraperInterface
                         return $node->text();
                     }),
                     'title' => $a->text(),
-                    'link_uri' => $a->link()->getUri(),
+                    'href' => $a->link()->getUri(),
                 ];
             });
 
