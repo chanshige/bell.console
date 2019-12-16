@@ -8,6 +8,11 @@ use Bell\Console\Commands\Greeting;
 
 use Throwable;
 
+/**
+ * Class Resolve
+ *
+ * @package Bell\AuraDi
+ */
 class Resolve extends ContainerConfig
 {
     /**

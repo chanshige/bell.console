@@ -11,14 +11,14 @@ use Psr\Container\ContainerInterface;
  * Commands Lazily Loaded
  *
  * @param Application        $app
- * @param ContainerInterface $container
+ * @param ContainerInterface $c
  */
-return function (Application $app, ContainerInterface $container) {
+return function (Application $app, ContainerInterface $c) {
     $app->setCommandLoader(
         new FactoryCommandLoader(
             [
-                'sample:greeting' => function () use ($container) {
-                    return $container->get(Command\Greeting::class);
+                'sample:greeting' => function () use ($c) {
+                    return $c->get(Command\Greeting::class);
                 }
             ]
         )

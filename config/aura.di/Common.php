@@ -4,7 +4,6 @@ namespace Bell\AuraDi;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
-use Bell\Console\Commands\Greeting;
 use Bell\Console\Http\GoutteClient;
 use Bell\Console\Interfaces\GoutteClientInterface;
 use Chanshige\Interfaces\SlackNotifierInterface;
