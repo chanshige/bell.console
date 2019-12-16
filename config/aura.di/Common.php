@@ -6,7 +6,10 @@ use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
 use Bell\Console\Http\GoutteClient;
 use Bell\Console\Interfaces\GoutteClientInterface;
+use Bell\Console\Interfaces\HawksNewsScraperInterface;
+use Bell\Console\Services\HawksNewsScraper;
 use Chanshige\Interfaces\SlackNotifierInterface;
+
 use Chanshige\SlackNotifier;
 
 /**
@@ -26,5 +29,7 @@ class Common extends ContainerConfig
             SlackNotifier::class,
             [getenv('SLACK_WEBHOOK_URI')]
         );
+
+        $di->types[HawksNewsScraperInterface::class] = $di->lazyNew(HawksNewsScraper::class);
     }
 }

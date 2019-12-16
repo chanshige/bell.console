@@ -4,8 +4,7 @@ namespace Bell\AuraDi;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
-use Bell\Console\Commands\Greeting;
-
+use Bell\Console\Commands\{Greeting, HawksNews};
 use Throwable;
 
 /**
@@ -22,5 +21,6 @@ class Resolve extends ContainerConfig
     public function define(Container $di): void
     {
         $di->set(Greeting::class, $di->lazyNew(Greeting::class));
+        $di->set(HawksNews::class, $di->lazyNew(HawksNews::class));
     }
 }

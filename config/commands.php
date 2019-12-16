@@ -19,6 +19,9 @@ return function (Application $app, ContainerInterface $c) {
             [
                 'sample:greeting' => function () use ($c) {
                     return $c->get(Command\Greeting::class);
+                },
+                'hawks:news' => function () use ($c) {
+                    return $c->get(Command\HawksNews::class);
                 }
             ]
         )

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Bell\Console\Services;
 
 use ArrayObject;
+use Bell\Console\Interfaces\GoutteClientInterface;
 use Bell\Console\Interfaces\HawksNewsScraperInterface;
-use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -15,15 +15,26 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class HawksNewsScraper extends ArrayObject implements HawksNewsScraperInterface
 {
+    /** @var GoutteClientInterface */
+    private $client;
+
     /**
-     * Execute
+     * HawksNewsScraper constructor.
      *
-     * @param Client $client
-     * @return HawksNewsScraperInterface
+     * @param GoutteClientInterface $client
      */
-    public function __invoke(Client $client): HawksNewsScraperInterface
+    public function __construct(GoutteClientInterface $client)
     {
-        $crawler = $client->request('GET', 'https://www.softbankhawks.co.jp/news/list/index.html');
+        parent::__construct([], ArrayObject::STD_PROP_LIST);
+        $this->client = $client;
+    }
+
+    /**
+     * @return $this
+     */
+    public function __invoke()
+    {
+        $crawler = $this->client->request('GET', 'https://www.softbankhawks.co.jp/news/list/index.html');
         $section = $crawler->filter('section');
         $date = $section->filter('.pl_titleWrap03 > h2')->text();
 
@@ -50,11 +61,6 @@ class HawksNewsScraper extends ArrayObject implements HawksNewsScraperInterface
         return $this;
     }
 
-    public function all(): array
-    {
-        return iterator_to_array(self::getIterator());
-    }
-
     public function latest(): array
     {
         return self::offsetGet(0);
@@ -65,8 +71,13 @@ class HawksNewsScraper extends ArrayObject implements HawksNewsScraperInterface
         return self::getIterator();
     }
 
-    public function size()
+    public function size(): int
     {
         return self::count();
+    }
+
+    public function all(): array
+    {
+        return iterator_to_array($this->iterator());
     }
 }
