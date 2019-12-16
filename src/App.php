@@ -3,26 +3,31 @@ declare(strict_types=1);
 
 namespace Bell\Console;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
 /**
- * Class Application
+ * Class App
  *
  * @package Bell\Console
  */
-class Application
+class App
 {
+    /** @var SymfonyConsole */
     private $app;
 
     /**
      * Application constructor.
      *
-     * @param SymfonyConsole $app
+     * @param SymfonyConsole     $app
+     * @param ContainerInterface $container
      */
-    public function __construct(SymfonyConsole $app)
-    {
+    public function __construct(
+        SymfonyConsole $app,
+        ContainerInterface $container
+    ) {
         $commands = (require CONSOLE_DIR . 'config/commands.php');
-        $commands($app);
+        $commands($app, $container);
 
         $this->app = $app;
     }

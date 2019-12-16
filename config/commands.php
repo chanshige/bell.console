@@ -1,26 +1,24 @@
 <?php
 
 use Bell\Console\Commands as Command;
-use Bell\Console\Services as Service;
 
-use Goutte\Client;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
+
+use Psr\Container\ContainerInterface;
 
 /**
  * Commands Lazily Loaded
  *
- * @var Application $app
+ * @param Application        $app
+ * @param ContainerInterface $container
  */
-return function (Application $app) {
+return function (Application $app, ContainerInterface $container) {
     $app->setCommandLoader(
         new FactoryCommandLoader(
             [
-                Command\Greeting::getDefaultName() => function () {
-                    return new Command\Greeting;
-                },
-                Command\HawksNews::getDefaultName() => function () {
-                    return new Command\HawksNews((new Service\HawksNewsScraper())(new Client));
+                'sample:greeting' => function () use ($container) {
+                    return $container->get(Command\Greeting::class);
                 }
             ]
         )

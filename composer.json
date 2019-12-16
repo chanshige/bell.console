@@ -20,6 +20,7 @@
     ],
     "psr-4": {
       "Exception\\": "src/Exception/",
+      "Bell\\AuraDi\\": "config/aura.di",
       "Bell\\Console\\": "src/"
     }
   },
@@ -30,8 +31,12 @@
   },
   "require": {
     "php": ">=7.3",
+    "aura/di": "^4.0",
+    "symfony/cache": "^5.0",
     "symfony/console": "^5.0",
-    "fabpot/goutte": "^3.0"
+    "fabpot/goutte": "^3.0",
+    "vlucas/phpdotenv": "^4.0",
+    "chanshige/slack-notifier": "*"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "*",

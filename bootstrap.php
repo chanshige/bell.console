@@ -1,16 +1,27 @@
 <?php
+date_default_timezone_set('Asia/Tokyo');
+
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Bell\Console\Application;
+use Aura\Di\ContainerBuilder;
+use Bell\AuraDi\{Common, Resolve};
+
+use Bell\Console\App;
+use Dotenv\Dotenv;
 use Symfony\Component\Console\Application as SfConsole;
 
 const CONSOLE_DIR = __DIR__ . '/';
-const CONSOLE_NAME = 'bell.console';
-const CONSOLE_VERSION = 'v0.1.0';
 
 try {
-    $app = (new Application(new SfConsole(CONSOLE_NAME, CONSOLE_VERSION)))->boot();
-    $app->run();
+    /* Load dotenv */
+    (Dotenv::createImmutable(CONSOLE_DIR))->load();
+
+    /* boot application */
+    $app = new App(
+        new SfConsole(getenv('CONSOLE_NAME'), getenv('CONSOLE_VERSION')),
+        (new ContainerBuilder())->newConfiguredInstance([Common::class, Resolve::class], true)
+    );
+    $app->boot()->run();
 
     exit(0);
 } catch (Throwable $e) {
