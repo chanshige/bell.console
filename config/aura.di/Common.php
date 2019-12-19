@@ -25,10 +25,7 @@ class Common extends ContainerConfig
     public function define(Container $di): void
     {
         $di->types[GoutteClientInterface::class] = $di->lazyNew(GoutteClient::class);
-        $di->types[SlackNotifierInterface::class] = $di->lazyNew(
-            SlackNotifier::class,
-            [getenv('SLACK_WEBHOOK_URI')]
-        );
+        $di->types[SlackNotifierInterface::class] = $di->lazyNew(SlackNotifier::class, [getenv('SLACK_WEBHOOK_URI')]);
 
         $di->types[HawksNewsScraperInterface::class] = $di->lazyNew(HawksNewsScraper::class);
     }

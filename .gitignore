@@ -1,8 +1,9 @@
 .idea
 .env
 /vendor
-
 !/var/log/*
 /var/log/*
+!/var/cache/*
+/var/cache/*
 
 !.gitkeep
