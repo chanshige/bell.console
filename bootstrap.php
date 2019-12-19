@@ -17,7 +17,14 @@ try {
     $container = (new ContainerFactory())->build();
 
     /* boot application */
-    $app = new App(new SfConsole(getenv('CONSOLE_NAME'), getenv('CONSOLE_VERSION')), $container);
+    $app = new App(
+        new SfConsole(
+            getenv('CONSOLE_NAME'),
+            getenv('CONSOLE_VERSION')
+        ),
+        $container
+    );
+
     $app->boot()->run();
 
     exit(0);

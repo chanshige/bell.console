@@ -23,7 +23,7 @@ final class ContainerFactory
     /**
      * ContainerFactory constructor.
      *
-     * @param array $configClasses
+     * @param ContainerConfigInterface[] $configClasses
      */
     public function __construct(array $configClasses = [])
     {
@@ -37,7 +37,7 @@ final class ContainerFactory
      * @return ContainerInterface
      * @throws Throwable
      */
-    public function build(bool $autoResolve = ContainerBuilder::AUTO_RESOLVE)
+    public function build(bool $autoResolve = ContainerBuilder::AUTO_RESOLVE): ContainerInterface
     {
         return (new ContainerBuilder)->newConfiguredInstance($this->configClasses, $autoResolve);
     }
