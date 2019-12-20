@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Bell\Console\Commands;
 
-use Bell\Console\Interfaces\HawksNewsScraperInterface;
+use Bell\Console\Interfaces\ScraperInterface;
+use Bell\Console\Supports\Storage;
 use Chanshige\Interfaces\SlackNotifierInterface;
 use Chanshige\Messages\SlackAttachment;
 use Chanshige\Messages\SlackMessage;
@@ -21,9 +22,9 @@ class HawksNews extends AbstractCommand
     protected $command = 'hawks:news';
 
     /** @var string  command description */
-    protected $description = 'SoftBank HAWKS NEWS';
+    protected $description = 'HAWKS NEWS';
 
-    /** @var HawksNewsScraperInterface */
+    /** @var ScraperInterface */
     private $service;
 
     /** @var SlackNotifierInterface */
@@ -32,11 +33,11 @@ class HawksNews extends AbstractCommand
     /**
      * HawksNews constructor.
      *
-     * @param HawksNewsScraperInterface $service
-     * @param SlackNotifierInterface    $notifier
+     * @param ScraperInterface       $service
+     * @param SlackNotifierInterface $notifier
      */
     public function __construct(
-        HawksNewsScraperInterface $service,
+        ScraperInterface $service,
         SlackNotifierInterface $notifier
     ) {
         parent::__construct();
@@ -49,8 +50,12 @@ class HawksNews extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        var_dump(($this->service)()->latest());
-        $this->notifier->send($this->buildSlackMessage(($this->service)()->latest()));
+        $this->service->scraping($storage = new Storage());
+
+        if ($input->getOption('notify')) {
+            $this->notifier->send($this->buildSlackMessage($storage->first()));
+        }
+
         return 0;
     }
 
@@ -58,21 +63,28 @@ class HawksNews extends AbstractCommand
      * @param array $data
      * @return SlackMessage
      */
-    private function buildSlackMessage(array $data)
+    protected function buildSlackMessage(array $data)
     {
         $message = (new SlackMessage())->username('HawksNews')
-            ->iconUrl('https://pbs.twimg.com/profile_images/1186986092609695744/L6ql63Nx_400x400.jpg')
-            ->message('福岡ソフトバンクホークス(公式)の新しいニュースがあります(' . $data['date'] . ')');
+            ->channel(getenv('SLACK_HAWKS_NOTIFY_CHANNEL'))
+            ->iconUrl(getenv('SLACK_HAWKS_NOTIFY_ICON_URL'))
+            ->message('HAWKS NEWS (' . $data['date'] . ')');
 
-        $attachment = [];
         foreach ($data['article'] as $list) {
-            $attachment[] = (new SlackAttachment())->color('#f9ca00')
-                ->title($list['title'])
-                ->titleLink($list['href'])
-                ->footer('Fukuoka SoftBank HAWKS')
-                ->footerIcon('https://www.softbankhawks.co.jp//news/pl_img/logo02.jpg');
+            $message->attachments(
+                [
+                    (new SlackAttachment())->color('#f9ca00')
+                        ->authorName(implode("/", $list['label']))
+                        ->title($list['title'])
+                        ->titleLink($list['_links']['self']['href'])
+                        ->message($list['description'])
+                        ->thumbUrl($list['_links']['image']['href'])
+                        ->footer('Fukuoka SoftBank HAWKS')
+                        ->footerIcon(getenv('SLACK_HAWKS_NOTIFY_FOOTER_ICON'))
+                ]
+            );
         }
 
-        return $message->attachments($attachment);
+        return $message;
     }
 }

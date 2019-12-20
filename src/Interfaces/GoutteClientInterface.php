@@ -3,6 +3,7 @@
 namespace Bell\Console\Interfaces;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Link;
 
 /**
  * Interface GoutteClientInterface
@@ -41,4 +42,12 @@ interface GoutteClientInterface
      * @return Crawler
      */
     public function request(string $method, string $uri, array $parameters = []);
+
+    /**
+     * Clicks on a given link.
+     *
+     * @param Link $link
+     * @return Crawler
+     */
+    public function click(Link $link);
 }

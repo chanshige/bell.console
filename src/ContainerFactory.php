@@ -27,7 +27,7 @@ final class ContainerFactory
      */
     public function __construct(array $configClasses = [])
     {
-        $this->configClasses = $configClasses ?: [Common::class, Resolve::class];
+        $this->configClasses = $configClasses ?: [Common::class];
     }
 
     /**

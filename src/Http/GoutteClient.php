@@ -5,6 +5,7 @@ namespace Bell\Console\Http;
 
 use Bell\Console\Interfaces\GoutteClientInterface;
 use Goutte\Client;
+use Symfony\Component\DomCrawler\Link;
 
 /**
  * Class GoutteClient
@@ -63,5 +64,13 @@ class GoutteClient implements GoutteClientInterface
     public function request(string $method, string $uri, array $parameters = [])
     {
         return $this->client->request($method, $uri, $parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function click(Link $link)
+    {
+        return $this->client->click($link);
     }
 }

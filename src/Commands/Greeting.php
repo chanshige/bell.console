@@ -15,19 +15,31 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Greeting extends AbstractCommand
 {
+    /** @var string */
     protected $command = 'sample:greeting';
 
+    /** @var string */
     protected $description = 'greeting!';
 
+    /** @var SlackNotifierInterface */
     private $notifier;
 
+    /**
+     * Greeting constructor.
+     *
+     * @param SlackNotifierInterface $notifier
+     */
     public function __construct(SlackNotifierInterface $notifier)
     {
         parent::__construct();
         $this->notifier = $notifier;
     }
 
-
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Hello!');

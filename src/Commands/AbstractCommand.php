@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Bell\Console\Commands;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class AbstractCommand
@@ -25,5 +26,6 @@ abstract class AbstractCommand extends Command
     {
         $this->setName($this->command);
         $this->setDescription($this->description);
+        $this->addOption('notify', null, InputOption::VALUE_NONE, 'Use notifier.');
     }
 }

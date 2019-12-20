@@ -2,7 +2,7 @@
 
 namespace Bell\Console\Interfaces;
 
-use ArrayIterator;
+use Closure;
 
 /**
  * Interface ScraperInterface
@@ -19,27 +19,8 @@ interface ScraperInterface
     public function __construct(GoutteClientInterface $client);
 
     /**
-     * @return $this
+     * @param StorageInterface $storage
+     * @return void
      */
-    public function __invoke();
-
-    /**
-     * @return array
-     */
-    public function all(): array;
-
-    /**
-     * @return array
-     */
-    public function latest(): array;
-
-    /**
-     * @return ArrayIterator
-     */
-    public function iterator();
-
-    /**
-     * @return int
-     */
-    public function size(): int;
+    public function scraping(StorageInterface $storage);
 }
