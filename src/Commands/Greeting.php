@@ -42,8 +42,13 @@ class Greeting extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Hello!');
-        $this->notifier->send((new SlackMessage())->message('Hello!'));
+        $greeting = 'Hello!';
+
+        $output->writeln($greeting);
+
+        if ($input->getOption('notify')) {
+            $this->notifier->send((new SlackMessage())->message($greeting));
+        }
 
         return 0;
     }

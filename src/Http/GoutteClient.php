@@ -24,7 +24,6 @@ class GoutteClient implements GoutteClientInterface
      */
     public function __construct()
     {
-        // Goutte/Clientにガッツリ依存する
         $this->client = new Client;
     }
 

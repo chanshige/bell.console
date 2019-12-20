@@ -2,4 +2,5 @@
 ベルさんのくだらないコマンドラインツール
 
 ### usage
-    % php bin/wizarding {command}
+    % cp .env.sample .env
+    % php bin/console {command}
