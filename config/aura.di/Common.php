@@ -28,7 +28,7 @@ class Common extends ContainerConfig
     {
         // global depends
         $di->types[GoutteClientInterface::class] = $di->lazyNew(GoutteClient::class);
-        $di->types[SlackNotifierInterface::class] = $di->lazyNew(SlackNotifier::class, [getenv('SLACK_WEBHOOK_URI')]);
+        $di->types[SlackNotifierInterface::class] = $di->lazyNew(SlackNotifier::class, [env('SLACK_WEBHOOK_URI')]);
 
         // dep injects
         $di->params[HawksNews::class]['service'] = $di->lazyNew(HawksNewsScraper::class);

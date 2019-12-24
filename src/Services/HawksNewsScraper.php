@@ -5,7 +5,6 @@ namespace Bell\Console\Services;
 use Bell\Console\Interfaces\GoutteClientInterface;
 use Bell\Console\Interfaces\ScraperInterface;
 use Bell\Console\Interfaces\StorageInterface;
-use Closure;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -15,6 +14,9 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class HawksNewsScraper implements ScraperInterface
 {
+    /** @var string */
+    private const NEWS_URI = 'https://www.softbankhawks.co.jp/news/list/index.html';
+
     /** @var GoutteClientInterface */
     private $client;
 
@@ -31,11 +33,10 @@ class HawksNewsScraper implements ScraperInterface
      */
     public function scraping(StorageInterface $storage)
     {
-        $crawler = $this->client->request('GET', 'https://www.softbankhawks.co.jp/news/list/index.html');
-        $section = $crawler->filter('section');
-        //$date = $section->filter('.pl_titleWrap03 > h2')->text();
+        $crawler = $this->client->request('GET', self::NEWS_URI);
+        $articles = $crawler->filter('section > .pl_newsList02 > li');
 
-        $section->filter('.pl_newsList02 > li')->eq(0)->each(function (Crawler $node) use ($storage) {
+        $articles->eq(0)->each(function (Crawler $node) use ($storage) {
             $storage->append(
                 [
                     'date' => $node->filter('.pl_date > p')->eq(0)->text() . '日',
