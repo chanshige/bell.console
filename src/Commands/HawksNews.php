@@ -11,6 +11,8 @@ use Chanshige\Messages\SlackMessage;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function env;
+
 /**
  * Class HawksNews
  *
@@ -66,8 +68,8 @@ class HawksNews extends AbstractCommand
     protected function buildSlackMessage(array $data)
     {
         $message = (new SlackMessage())->username('HawksNews')
-            ->channel(getenv('SLACK_HAWKS_NOTIFY_CHANNEL'))
-            ->iconUrl(getenv('SLACK_HAWKS_NOTIFY_ICON_URL'))
+            ->channel(env('SLACK_HAWKS_NOTIFY_CHANNEL'))
+            ->iconUrl(env('SLACK_HAWKS_NOTIFY_ICON_URL'))
             ->message('HAWKS NEWS (' . $data['date'] . ')');
 
         foreach ($data['article'] as $list) {
@@ -80,7 +82,7 @@ class HawksNews extends AbstractCommand
                         ->message($list['description'])
                         ->thumbUrl($list['_links']['image']['href'])
                         ->footer('Fukuoka SoftBank HAWKS')
-                        ->footerIcon(getenv('SLACK_HAWKS_NOTIFY_FOOTER_ICON'))
+                        ->footerIcon(env('SLACK_HAWKS_NOTIFY_FOOTER_ICON'))
                 ]
             );
         }

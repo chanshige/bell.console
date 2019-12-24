@@ -10,19 +10,14 @@ use Symfony\Component\Console\Application as SfConsole;
 const CONSOLE_DIR = __DIR__ . '/';
 
 try {
-    /* load dotenv */
     (Dotenv::createImmutable(CONSOLE_DIR))->load();
 
-    /* build container */
-    $container = (new ContainerFactory())->build();
-
-    /* boot application */
     $app = new App(
         new SfConsole(
-            getenv('CONSOLE_NAME'),
-            getenv('CONSOLE_VERSION')
+            env('CONSOLE_NAME'),
+            env('CONSOLE_VERSION')
         ),
-        $container
+        (new ContainerFactory())->build()
     );
 
     $app->boot()->run();
